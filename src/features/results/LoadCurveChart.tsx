@@ -11,6 +11,7 @@ import type { PipelineGraph } from '../../domain/types'
 import { calculatePipeline } from '../../domain/engine'
 import { Card } from '../../shared/components/Card'
 import { formatLatency, formatRps } from '../../shared/utils/format'
+import { theme } from '../../shared/theme'
 import { useMemo } from 'react'
 
 interface LoadCurveChartProps {
@@ -48,19 +49,19 @@ export function LoadCurveChart({ graph, currentRps }: LoadCurveChartProps) {
         <LineChart data={data} margin={{ left: 10, right: 10 }}>
           <XAxis
             dataKey="rps"
-            tick={{ fill: '#94a3b8', fontSize: 10 }}
+            tick={{ fill: theme.slate400, fontSize: 10 }}
             tickFormatter={(v) => formatRps(v)}
             scale="log"
             domain={['dataMin', 'dataMax']}
           />
           <YAxis
-            tick={{ fill: '#94a3b8', fontSize: 10 }}
+            tick={{ fill: theme.slate400, fontSize: 10 }}
             tickFormatter={(v) => formatLatency(v)}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#1e293b',
-              border: '1px solid #334155',
+              backgroundColor: theme.slate800,
+              border: `1px solid ${theme.slate700}`,
               borderRadius: 8,
               fontSize: 12,
             }}
@@ -72,13 +73,13 @@ export function LoadCurveChart({ graph, currentRps }: LoadCurveChartProps) {
           />
           <ReferenceLine
             x={currentRps}
-            stroke="#475569"
+            stroke={theme.slate600}
             strokeDasharray="3 3"
           />
           <Line
             type="monotone"
             dataKey="p50"
-            stroke="#10b981"
+            stroke={theme.emerald500}
             strokeWidth={1.5}
             dot={false}
             name="Optimistic"
@@ -86,7 +87,7 @@ export function LoadCurveChart({ graph, currentRps }: LoadCurveChartProps) {
           <Line
             type="monotone"
             dataKey="p95"
-            stroke="#f59e0b"
+            stroke={theme.amber500}
             strokeWidth={1.5}
             dot={false}
             name="Realistic"
@@ -94,7 +95,7 @@ export function LoadCurveChart({ graph, currentRps }: LoadCurveChartProps) {
           <Line
             type="monotone"
             dataKey="p99"
-            stroke="#ef4444"
+            stroke={theme.red500}
             strokeWidth={1.5}
             dot={false}
             name="Pessimistic"

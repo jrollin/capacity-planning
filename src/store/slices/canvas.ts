@@ -148,8 +148,10 @@ export const createCanvasSlice: StateCreator<StoreState, [], [], CanvasSlice> = 
     if (isSequential) {
       const updated = edges.map((e) => {
         if (e.id === edgeId) {
-          const { sequential: _, sequentialOrder: __, ...rest } = e.data as Record<string, unknown>
-          return { ...e, data: { ...rest } }
+          const data = { ...(e.data as Record<string, unknown>) }
+          delete data.sequential
+          delete data.sequentialOrder
+          return { ...e, data }
         }
         return e
       })

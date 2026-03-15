@@ -7,6 +7,19 @@
   --color-red-glow: rgba(239, 68, 68, 0.15);
 }
 
+:root {
+  --theme-slate-400: theme(--color-slate-400);
+  --theme-slate-500: theme(--color-slate-500);
+  --theme-slate-600: theme(--color-slate-600);
+  --theme-slate-700: theme(--color-slate-700);
+  --theme-slate-800: theme(--color-slate-800);
+  --theme-slate-950-70: rgba(15, 23, 42, 0.7);
+  --theme-emerald-500: theme(--color-emerald-500);
+  --theme-amber-500: theme(--color-amber-500);
+  --theme-red-500: theme(--color-red-500);
+  --theme-blue-500: theme(--color-blue-500);
+}
+
 html {
   color-scheme: dark;
 }
@@ -31,21 +44,21 @@ body {
   width: 8px !important;
   height: 8px !important;
   border-radius: 50% !important;
-  background: #64748b !important;
-  border: 2px solid #334155 !important;
+  background: var(--theme-slate-500) !important;
+  border: 2px solid var(--theme-slate-700) !important;
 }
 
 .react-flow__handle:hover {
-  background: #10b981 !important;
+  background: var(--theme-emerald-500) !important;
 }
 
 .react-flow__handle-connecting {
-  background: #10b981 !important;
+  background: var(--theme-emerald-500) !important;
 }
 
 @keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-red-500) 40%, transparent); }
+  50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--theme-red-500) 0%, transparent); }
 }
 
 .bottleneck-pulse {

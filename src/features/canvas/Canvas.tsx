@@ -14,6 +14,7 @@ import { PipelineEdge } from './PipelineEdge'
 import { CanvasToolbar } from './CanvasToolbar'
 import { useDragAndDrop } from './hooks/useDragAndDrop'
 import { useClickToConnect } from './hooks/useClickToConnect'
+import { theme } from '../../shared/theme'
 
 const selector = (s: ReturnType<typeof useStore.getState>) => ({
   nodes: s.nodes,
@@ -68,12 +69,12 @@ export function Canvas() {
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color="#334155"
+          color={theme.slate700}
         />
         <MiniMap
           className="!bg-slate-800 !border-slate-700"
-          maskColor="rgba(15, 23, 42, 0.7)"
-          nodeColor="#475569"
+          maskColor={theme.slate950_70}
+          nodeColor={theme.slate600}
         />
         <Panel position="bottom-left">
           <CanvasToolbar />

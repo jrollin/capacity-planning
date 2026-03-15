@@ -10,6 +10,7 @@ import {
 import type { CalculationResult } from '../../domain/types'
 import { getComponentById } from '../../domain/component-catalog'
 import { Card } from '../../shared/components/Card'
+import { theme } from '../../shared/theme'
 
 interface LatencyBreakdownChartProps {
   result: CalculationResult
@@ -40,17 +41,17 @@ export function LatencyBreakdownChart({
     <Card title="Latency Breakdown (Critical Path)">
       <ResponsiveContainer width="100%" height={160}>
         <BarChart data={data} layout="vertical" margin={{ left: 60, right: 10 }}>
-          <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 10 }} unit="ms" />
+          <XAxis type="number" tick={{ fill: theme.slate400, fontSize: 10 }} unit="ms" />
           <YAxis
             type="category"
             dataKey="name"
-            tick={{ fill: '#94a3b8', fontSize: 10 }}
+            tick={{ fill: theme.slate400, fontSize: 10 }}
             width={55}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#1e293b',
-              border: '1px solid #334155',
+              backgroundColor: theme.slate800,
+              border: `1px solid ${theme.slate700}`,
               borderRadius: 8,
               fontSize: 12,
             }}
@@ -60,7 +61,7 @@ export function LatencyBreakdownChart({
             {data.map((entry, index) => (
               <Cell
                 key={index}
-                fill={entry.isBottleneck ? '#ef4444' : '#10b981'}
+                fill={entry.isBottleneck ? theme.red500 : theme.emerald500}
               />
             ))}
           </Bar>

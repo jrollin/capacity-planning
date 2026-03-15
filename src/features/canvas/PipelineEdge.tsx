@@ -6,6 +6,7 @@ import {
 } from '@xyflow/react'
 import { useState, useRef, useCallback } from 'react'
 import { useStore } from '../../store'
+import { theme } from '../../shared/theme'
 
 export function PipelineEdge({
   id,
@@ -58,7 +59,7 @@ export function PipelineEdge({
   const isOnCriticalPath =
     sourceIdx !== -1 && targetIdx !== -1 && targetIdx === sourceIdx + 1
 
-  const strokeColor = isSequential ? '#3b82f6' : isOnCriticalPath ? '#f59e0b' : '#475569'
+  const strokeColor = isSequential ? theme.blue500 : isOnCriticalPath ? theme.amber500 : theme.slate600
 
   const targetLatency =
     calculationResult?.scenarios.realistic.nodeLatencies.get(target)
@@ -84,7 +85,7 @@ export function PipelineEdge({
         id={id}
         path={edgePath}
         style={{
-          stroke: clicked ? '#10b981' : hovered ? '#94a3b8' : strokeColor,
+          stroke: clicked ? theme.emerald500 : hovered ? theme.slate400 : strokeColor,
           strokeWidth: clicked ? 3 : isOnCriticalPath ? 2.5 : 1.5,
           strokeDasharray: isSequential ? '6 3' : undefined,
           pointerEvents: 'none',
