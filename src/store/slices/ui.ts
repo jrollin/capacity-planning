@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand'
 import type { StoreState } from '../index'
 
 export type RightPanelTab = 'results' | 'config'
+export type MobilePanel = 'none' | 'sidebar' | 'results'
 
 export interface UISlice {
   selectedNodeId: string | null
@@ -10,6 +11,7 @@ export interface UISlice {
   sidebarCollapsed: boolean
   activeRightTab: RightPanelTab
   sequenceOverlayVisible: boolean
+  mobilePanel: MobilePanel
   selectNode: (nodeId: string | null) => void
   openConfigDrawer: (nodeId: string) => void
   closeConfigDrawer: () => void
@@ -17,6 +19,7 @@ export interface UISlice {
   toggleSidebar: () => void
   setActiveRightTab: (tab: RightPanelTab) => void
   toggleSequenceOverlay: () => void
+  setMobilePanel: (panel: MobilePanel) => void
 }
 
 export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
@@ -28,6 +31,7 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   sidebarCollapsed: false,
   activeRightTab: 'results',
   sequenceOverlayVisible: false,
+  mobilePanel: 'none',
 
   selectNode: (nodeId) => set({ selectedNodeId: nodeId }),
 
@@ -51,4 +55,6 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
 
   toggleSequenceOverlay: () =>
     set((state) => ({ sequenceOverlayVisible: !state.sequenceOverlayVisible })),
+
+  setMobilePanel: (panel) => set({ mobilePanel: panel }),
 })

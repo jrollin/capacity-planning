@@ -32,10 +32,27 @@ body {
 
 #root {
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
 }
 
+/* Skip link for keyboard/screen reader users */
+.skip-link {
+  @apply absolute left-2 z-[100] rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg;
+  top: -100%;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-emerald-500;
+}
+
+/* React Flow */
 .react-flow__node {
   font-family: inherit;
 }
@@ -63,4 +80,54 @@ body {
 
 .bottleneck-pulse {
   animation: pulse-red 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .bottleneck-pulse {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile overlay panel */
+.mobile-overlay {
+  @apply fixed inset-0 z-40;
+}
+
+.mobile-overlay-backdrop {
+  @apply absolute inset-0 bg-black/60;
+}
+
+.mobile-overlay-panel {
+  @apply absolute top-0 bottom-0 flex flex-col bg-slate-850 shadow-2xl;
+  width: min(85vw, 320px);
+}
+
+.mobile-overlay-panel--left {
+  left: 0;
+  border-right: 1px solid var(--theme-slate-700);
+}
+
+.mobile-overlay-panel--right {
+  right: 0;
+  border-left: 1px solid var(--theme-slate-700);
+}
+
+/* Touch-friendly slider thumb */
+@media (pointer: coarse) {
+  input[type="range"] {
+    height: 8px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
 }

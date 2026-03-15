@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 
 interface SliderProps {
   label: string
@@ -29,6 +29,7 @@ export function Slider({
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const sliderId = useId()
 
   const sliderValue = logarithmic ? Math.log10(Math.max(value, 1)) : value
   const sliderMin = logarithmic ? Math.log10(Math.max(min, 1)) : min
@@ -103,6 +104,7 @@ export function Slider({
       </div>
       <div className="relative">
         <input
+          id={sliderId}
           type="range"
           min={sliderMin}
           max={sliderMax}
@@ -110,6 +112,11 @@ export function Slider({
           value={sliderValue}
           onChange={handleChange}
           className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-700 accent-emerald-500"
+          aria-label={label}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={value}
+          aria-valuetext={displayValue}
         />
         {defaultPercent !== undefined && (
           <div
