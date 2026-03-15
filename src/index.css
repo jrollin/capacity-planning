@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-slate-850: #172033;
+  --color-emerald-glow: rgba(16, 185, 129, 0.15);
+  --color-amber-glow: rgba(245, 158, 11, 0.15);
+  --color-red-glow: rgba(239, 68, 68, 0.15);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-900 text-slate-100 antialiased;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.react-flow__node {
+  font-family: inherit;
+}
+
+.react-flow__handle {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #64748b !important;
+  border: 2px solid #334155 !important;
+}
+
+.react-flow__handle:hover {
+  background: #10b981 !important;
+}
+
+.react-flow__handle-connecting {
+  background: #10b981 !important;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+.bottleneck-pulse {
+  animation: pulse-red 2s ease-in-out infinite;
+}
