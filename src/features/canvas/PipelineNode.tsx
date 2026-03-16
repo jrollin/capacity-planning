@@ -101,7 +101,8 @@ export function PipelineNode({ id, data }: NodeProps<PipelineFlowNode>) {
             e.stopPropagation()
             removeNode(id)
           }}
-          className="nodrag absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-slate-700 text-[10px] text-slate-400 opacity-0 transition-opacity hover:bg-red-600 hover:text-white group-hover:opacity-100"
+          className="nodrag absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-slate-700 text-xs text-slate-400 opacity-100 transition-opacity hover:bg-red-600 hover:text-white md:h-5 md:w-5 md:text-[10px] md:opacity-0 md:group-hover:opacity-100"
+          aria-label={`Remove ${data.label}`}
           title="Remove"
         >
           ✕
@@ -113,7 +114,8 @@ export function PipelineNode({ id, data }: NodeProps<PipelineFlowNode>) {
               e.stopPropagation()
               setPickerOpen(!pickerOpen)
             }}
-            className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-700 text-[10px] text-slate-400 hover:bg-emerald-600 hover:text-white"
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-700 text-xs text-slate-400 hover:bg-emerald-600 hover:text-white md:h-5 md:w-5 md:text-[10px]"
+            aria-label="Add inner call"
             title="Add inner call"
           >
             +

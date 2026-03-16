@@ -75,7 +75,12 @@ export function MainLayout() {
 
   return (
     <ReactFlowProvider>
-      <div className="flex h-screen flex-col">
+      <div className="flex h-screen flex-col" style={{ height: '100dvh' }}>
+        {/* Skip link for keyboard users */}
+        <a href="#canvas-main" className="skip-link">
+          Skip to canvas
+        </a>
+
         <Header
           onSave={handleSave}
           onLoad={handleLoad}
@@ -83,7 +88,9 @@ export function MainLayout() {
         />
         <div className="flex flex-1 overflow-hidden">
           <ComponentSidebar />
-          <Canvas />
+          <main id="canvas-main" className="flex-1" role="main" aria-label="Pipeline canvas">
+            <Canvas />
+          </main>
           <RightPanel />
         </div>
       </div>

@@ -46,7 +46,7 @@ export function Canvas() {
   const edgeTypes = useMemo(() => ({ pipeline: PipelineEdge }), [])
 
   return (
-    <div className="flex-1">
+    <div className="h-full w-full">
       <ReactFlow
         nodes={nodesWithConnectState}
         edges={edges}
@@ -81,7 +81,11 @@ export function Canvas() {
         </Panel>
         {pendingSource && (
           <Panel position="top-center">
-            <div className="rounded-md bg-emerald-600/90 px-3 py-1 text-xs text-white shadow">
+            <div
+              className="rounded-md bg-emerald-600/90 px-3 py-1 text-xs text-white shadow"
+              role="status"
+              aria-live="polite"
+            >
               Click another node to connect — Esc or click canvas to cancel
             </div>
           </Panel>

@@ -4,7 +4,7 @@ import {
   getSmoothStepPath,
   type EdgeProps,
 } from '@xyflow/react'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useStore } from '../../store'
 import { theme } from '../../shared/theme'
 
@@ -44,6 +44,22 @@ export function PipelineEdge({
     }, 150)
   }, [])
 
+  // Close actions when tapping elsewhere on the canvas
+  useEffect(() => {
+    if (!clicked) return
+    function handleOutsideClick(e: MouseEvent | TouchEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setClicked(false)
+      }
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('touchstart', handleOutsideClick)
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.removeEventListener('touchstart', handleOutsideClick)
+    }
+  }, [clicked])
+
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
@@ -64,14 +80,21 @@ export function PipelineEdge({
   const targetLatency =
     calculationResult?.scenarios.realistic.nodeLatencies.get(target)
 
-  function removeEdge(e: React.MouseEvent) {
+  const showActions = hovered || clicked
+
+  function removeEdge(e: React.MouseEvent | React.TouchEvent) {
     e.stopPropagation()
     setEdges(edges.filter((edge) => edge.id !== id))
   }
 
+  function handleLabelTap(e: React.MouseEvent | React.TouchEvent) {
+    e.stopPropagation()
+    setClicked((c) => !c)
+  }
+
   return (
     <>
-      {/* Invisible wide path for hover detection */}
+      {/* Invisible wide path for hover/touch detection */}
       <path
         d={edgePath}
         fill="none"
@@ -79,6 +102,10 @@ export function PipelineEdge({
         strokeWidth={20}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        onTouchStart={(e) => {
+          e.stopPropagation()
+          setClicked(true)
+        }}
         style={{ cursor: 'pointer' }}
       />
       <BaseEdge
@@ -106,38 +133,50 @@ export function PipelineEdge({
               [{sequentialOrder}]
             </span>
           )}
-          <span
-            className={`cursor-pointer rounded px-1 py-0.5 text-[10px] transition-colors ${
+          <button
+            className={`cursor-pointer rounded px-2 py-1.5 text-[10px] transition-colors md:px-1 md:py-0.5 ${
               clicked
                 ? 'bg-emerald-600/30 text-emerald-300 ring-1 ring-emerald-500/50'
                 : 'bg-slate-900/80 text-slate-400 hover:bg-slate-800'
             }`}
-            onClick={(e) => {
-              e.stopPropagation()
-              setClicked((c) => !c)
-            }}
+            onClick={handleLabelTap}
+            onTouchEnd={handleLabelTap}
+            aria-label={`Edge: ${edgeLatencyMs}ms latency. Tap to show actions.`}
+            aria-expanded={showActions}
           >
             {edgeLatencyMs}ms net{targetLatency ? ` · +${Math.round(targetLatency.max)}ms` : ''}
-          </span>
-          {(hovered || clicked) && (
+          </button>
+          {showActions && (
             <>
               <button
                 onClick={(e) => {
                   e.stopPropagation()
                   toggleEdgeSequential(id)
                 }}
-                className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold shadow ${
+                onTouchEnd={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  toggleEdgeSequential(id)
+                }}
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold shadow md:h-5 md:w-5 md:text-[10px] ${
                   isSequential
                     ? 'bg-blue-600 text-white hover:bg-blue-500'
                     : 'bg-slate-600 text-slate-300 hover:bg-blue-600 hover:text-white'
                 }`}
+                aria-label={isSequential ? 'Make parallel' : 'Make sequential'}
                 title={isSequential ? 'Make parallel' : 'Make sequential'}
               >
                 S
               </button>
               <button
                 onClick={removeEdge}
-                className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] text-white shadow hover:bg-red-500"
+                onTouchEnd={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setEdges(edges.filter((edge) => edge.id !== id))
+                }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-xs text-white shadow hover:bg-red-500 md:h-5 md:w-5 md:text-[10px]"
+                aria-label="Remove connection"
                 title="Remove edge"
               >
                 ✕
